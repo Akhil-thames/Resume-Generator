@@ -22,7 +22,9 @@ export type CompileOptions = {
 function loadTemplateSource(templateId: string): string {
   const meta = TEMPLATE_REGISTRY[templateId];
   if (!meta) throw new Error(`Unknown templateId: ${templateId}`);
+  //  console.log(meta,"-------------------meta")
   const p = path.resolve(process.cwd(), meta.file);
+  // console.log(p,"-------------------p")
   const src = fs.readFileSync(p, "utf8");
   if (src.length > 1_000_000) throw new Error("Template too large");
   return src;
@@ -48,6 +50,7 @@ export async function compileResume(form: ResumeFormData, opts: CompileOptions =
   // Map & render
   const vars = mapToTemplateVars(form);
   const tex = renderTemplate(templateSrc, vars);
+  // console.log(tex, '---------------tex---------------')
  
   // Sandbox
   const workdir = createWorkdir();
@@ -62,7 +65,7 @@ export async function compileResume(form: ResumeFormData, opts: CompileOptions =
       memoryLimitKb: opts.memoryLimitKb,
       offline: opts.offline ?? true
     });
- 
+    console.log(result)
     const rawLog = (result.stdout || "") + "\n" + (result.stderr || "");
     const log = redactLogs(rawLog, workdir);
  

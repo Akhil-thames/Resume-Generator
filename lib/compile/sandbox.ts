@@ -5,6 +5,7 @@ import path from "path";
 /** Create a unique temp workdir under system tmp */
 export function createWorkdir(prefix = "resumegen-"): string {
   const base = fs.mkdtempSync(path.join(os.tmpdir(), prefix));
+  console.log(base,"----------------base--------------")
   return base; // e.g., /tmp/resumegen-abc123
 }
  
